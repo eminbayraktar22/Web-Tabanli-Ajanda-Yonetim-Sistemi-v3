@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: ajanda_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: ajanda_db
+      MYSQL_USER: ajanda_user
+      MYSQL_PASSWORD: ajanda_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ajanda_backend
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=ajanda_user
+      - DB_PASSWORD=ajanda_password
+      - DB_NAME=ajanda_db
+      - JWT_SECRET=UretimIcinSertVeGuvenliBirSifreGirin2026
+      - JWT_EXPIRES_IN=7d
+      - MAIL_HOST= # SMPT Sunucusu
+      - MAIL_PORT= # SMTP Portu
+      - MAIL_USER= # E-Posta
+      - MAIL_PASS= # Sifre
+    depends_on:
+      - db
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ajanda_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
