@@ -126,8 +126,8 @@ async function startServer() {
     await addColumnSafely('users', 'reset_token', 'VARCHAR(320)');
     await addColumnSafely('users', 'reset_token_expires', 'DATETIME');
 
-    // Sadece eksik tabloları oluştur, var olanları elleme
-    await sequelize.sync();
+    // Sadece eksik tabloları oluştur, var olanları güncelle (alter: true)
+    await sequelize.sync({ alter: true });
     
     console.log('✅ Modeller senkronize edildi.');
 
