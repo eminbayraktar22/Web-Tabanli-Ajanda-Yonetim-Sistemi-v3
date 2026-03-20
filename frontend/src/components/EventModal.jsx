@@ -1,5 +1,7 @@
 import React from 'react';
-import { X, Download } from 'lucide-react';
+import { Calendar, Clock, AlignLeft, Tag, X, Paperclip } from 'lucide-react';
+import api, { BASE_URL } from '../utils/api';
+import toast from 'react-hot-toast';
 
 const EventModal = ({
   isOpen,
@@ -85,7 +87,7 @@ const EventModal = ({
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1 flex justify-between items-center">
                   <span>Dosya Eki (Opsiyonel)</span>
                   {formData.attachment_url && (
-                    <a href={`http://localhost:3001${formData.attachment_url}`} target="_blank" rel="noreferrer" className="text-indigo-500 hover:underline text-xs flex items-center font-semibold">
+                    <a href={`${BASE_URL}${formData.attachment_url}`} target="_blank" rel="noreferrer" className="text-indigo-500 hover:underline text-xs flex items-center font-semibold">
                       <Download className="w-3 h-3 mr-1"/> Mevcut Ek
                     </a>
                   )}

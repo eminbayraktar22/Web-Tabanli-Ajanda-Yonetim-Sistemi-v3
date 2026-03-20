@@ -2,7 +2,7 @@ import React, { useState, useContext, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Camera, User, Lock, Mail, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
-import api from '../utils/api';
+import api, { BASE_URL } from '../utils/api';
 
 const Profile = () => {
   const { user, updateUser } = useContext(AuthContext);
@@ -17,7 +17,10 @@ const Profile = () => {
 
   const getAvatarUrl = () => {
     if (user?.avatar_url) {
-      return `http://localhost:3001${user.avatar_url}`;
+      if (user.avatar_url.startsWith('blob:')) {
+        return user.avatar_url;
+      }
+      return `${BASE_URL}${user.avatar_url}`;
     }
     return null;
   };

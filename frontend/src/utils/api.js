@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Backend çalıştığı adres. Prodüksiyonda/env üzerinden okuyalım (örn VITE_API_URL):
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+export const BASE_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '') : 'http://localhost:3001';
+const baseURL = import.meta.env.VITE_API_URL || `${BASE_URL}/api`;
 
 const api = axios.create({
   baseURL,

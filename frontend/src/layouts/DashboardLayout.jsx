@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { Calendar, LayoutDashboard, LogOut, Tags, Sun, Moon, ListTodo } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { io } from 'socket.io-client';
 import toast from 'react-hot-toast';
+import api, { BASE_URL } from '../utils/api';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const DashboardLayout = () => {
   useEffect(() => {
     let socket;
     if (user && user.id) {
-      socket = io('http://localhost:3001');
+      socket = io(BASE_URL);
       socket.emit('join', user.id);
       
       socket.on('notification', (data) => {
@@ -54,7 +55,7 @@ const DashboardLayout = () => {
         <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-800">
            <Link to="/profile" className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition" title="Hesap Ayarları">
               {user?.avatar_url ? (
-                <img src={`http://localhost:3001${user.avatar_url}`} alt="Profil" className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shadow-sm" />
+                <img src={`${BASE_URL}${user.avatar_url}`} alt="Profil" className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shadow-sm" />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold shadow-sm">
                    {user?.name?.charAt(0)?.toUpperCase()}
