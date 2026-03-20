@@ -123,6 +123,8 @@ async function startServer() {
     await addColumnSafely('Users', 'reset_token', 'VARCHAR(320)');
     await addColumnSafely('Users', 'reset_token_expires', 'DATETIME');
     await addColumnSafely('users', 'avatar_url', 'VARCHAR(255)');
+    await addColumnSafely('users', 'reset_token', 'VARCHAR(320)');
+    await addColumnSafely('users', 'reset_token_expires', 'DATETIME');
 
     // Sadece eksik tabloları oluştur, var olanları elleme
     await sequelize.sync();
