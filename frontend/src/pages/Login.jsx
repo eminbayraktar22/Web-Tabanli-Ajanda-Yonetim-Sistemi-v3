@@ -45,7 +45,7 @@ const Login = () => {
            <p className="text-indigo-100 mt-2">Zamanınızı ustalıkla yönetin. İşlerinizi takvimde planlayın, kategorilere ayırın ve asla unutmayın.</p>
         </div>
         <div className="text-indigo-200 text-sm">
-           &copy; 2026 AjandaSys
+           &copy; 2026 Emin Bayraktar
         </div>
       </div>
 

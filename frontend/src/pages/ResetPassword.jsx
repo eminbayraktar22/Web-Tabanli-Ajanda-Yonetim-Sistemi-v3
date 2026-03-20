@@ -64,7 +64,7 @@ const ResetPassword = () => {
            <p className="text-emerald-100 mt-2">Güçlü ve hatırlayabileceğiniz yeni bir şifre seçin. Ardından sisteme güvenle giriş yapın.</p>
         </div>
         <div className="text-emerald-200 text-sm">
-           &copy; 2026 AjandaSys
+           &copy; 2026 Emin Bayraktar
         </div>
       </div>
 

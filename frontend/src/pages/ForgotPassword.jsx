@@ -33,7 +33,7 @@ const ForgotPassword = () => {
            <p className="text-indigo-100 mt-2">Endişelenmeyin, yeni şifre belirlemeniz için size güvenli bir sıfırlama bağlantısı göndereceğiz.</p>
         </div>
         <div className="text-indigo-200 text-sm">
-           &copy; 2026 AjandaSys
+           &copy; 2026 Emin Bayraktar
         </div>
       </div>
 
