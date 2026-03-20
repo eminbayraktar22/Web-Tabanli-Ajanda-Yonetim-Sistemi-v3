@@ -31,10 +31,12 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Geçersiz token veya yetkisiz erişim -> Kullanıcıyı logine şutla
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Login ve Register isteklerinde dönen 401'ler şifre yanlıştır, sayfayı yenileme ki kırmızı uyarı ekranda çıksın.
+      if (error.config && !error.config.url.includes('/auth/login') && !error.config.url.includes('/auth/register')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
