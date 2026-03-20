@@ -5,6 +5,9 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 # .env dosyasını üretim aşaması için VITE build içine zorunlu verebilirsiniz (veya docker-compose'dan env verebilirsiniz)
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 # 2. Aşama: NGINX Sunucusu
