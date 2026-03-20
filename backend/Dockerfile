@@ -1,15 +1,23 @@
 FROM node:20-alpine
+
+# Uygulama dizinini oluştur
 WORKDIR /app
 
-# Sadece bağımlılık listesini kopyala (önbellek performansı için)
+# Paket bağımlılıklarını kopyala
 COPY package*.json ./
-RUN npm install
 
-# Kalan dosyaları kopyala
+# Sadece production (üretim) modundaki paketleri kur
+RUN npm install --omit=dev
+
+# Bütün kaynak kodları kopyala
 COPY . .
 
-# Konteyner çıkış portu
-EXPOSE 3001
+# Cloud Run için standart PORT ayarı
+ENV PORT=8080
+EXPOSE 8080
 
-# Uygulamayı başlat
-CMD ["npm", "run", "start"]
+# NODE_ENV değişkenini production olarak ayarla ki performans artsın
+ENV NODE_ENV=production
+
+# Server'ı başlat
+CMD ["npm", "start"]
