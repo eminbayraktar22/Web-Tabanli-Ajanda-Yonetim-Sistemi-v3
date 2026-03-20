@@ -55,4 +55,23 @@ router.put('/profile', authMiddleware, authController.updateProfile);
 // @desc    Kullanıcının profil fotoğrafını yükler
 router.post('/profile/avatar', authMiddleware, upload.single('avatar'), authController.uploadAvatar);
 
+// @route   POST /api/auth/forgot-password
+// @desc    Şifremi unuttum maili yollar
+// @access  Public
+router.post(
+  '/forgot-password',
+  authLimiter,
+  [check('email', 'Geçerli bir e-posta adresi giriniz').isEmail()],
+  authController.forgotPassword
+);
+
+// @route   POST /api/auth/reset-password/:token
+// @desc    Yeni şifreyi belirler
+// @access  Public
+router.post(
+  '/reset-password/:token',
+  [check('password', 'Şifre en az 6 karakter olmalıdır').isLength({ min: 6 })],
+  authController.resetPassword
+);
+
 module.exports = router;

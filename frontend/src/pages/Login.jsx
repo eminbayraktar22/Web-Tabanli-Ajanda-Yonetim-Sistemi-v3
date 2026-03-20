@@ -84,7 +84,7 @@ const Login = () => {
               <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-600">Beni hatırla</label>
             </div>
             <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Şifremi unuttum</a>
+              <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Şifremi unuttum</Link>
             </div>
           </div>
 

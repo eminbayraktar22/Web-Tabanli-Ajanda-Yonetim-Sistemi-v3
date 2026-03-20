@@ -120,6 +120,8 @@ async function startServer() {
     await addColumnSafely('Tasks', 'priority', 'VARCHAR(50)');
     await addColumnSafely('Tasks', 'attachment_url', 'VARCHAR(255)');
     await addColumnSafely('Users', 'avatar_url', 'VARCHAR(255)');
+    await addColumnSafely('Users', 'reset_token', 'VARCHAR(320)');
+    await addColumnSafely('Users', 'reset_token_expires', 'DATETIME');
     await addColumnSafely('users', 'avatar_url', 'VARCHAR(255)');
 
     // Sadece eksik tabloları oluştur, var olanları elleme

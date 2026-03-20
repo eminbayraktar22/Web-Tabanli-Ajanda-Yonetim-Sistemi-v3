@@ -10,6 +10,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Sayfalar
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import Calendar from './pages/Calendar';
 import Categories from './pages/Categories';
@@ -26,6 +28,8 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         {/* Korumalı Kullanıcı Rotaları (Dashboard Layout'lu) */}

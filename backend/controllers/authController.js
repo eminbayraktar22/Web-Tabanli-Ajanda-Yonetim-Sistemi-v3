@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const { User } = require('../models');
+const { Op } = require('sequelize');
+const crypto = require('crypto');
+const sendResetEmail = require('../utils/sendResetEmail');
 
 // Kayıt Ol (Register)
 exports.register = async (req, res) => {
@@ -169,5 +172,71 @@ exports.uploadAvatar = async (req, res) => {
   } catch (error) {
     console.error('Avatar Yükleme Hatası:', error);
     res.status(500).json({ success: false, message: 'Fotoğraf yüklenemedi' });
+  }
+};
+
+// Şifremi Unuttum (Forgot Password)
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Bu e-posta adresine ait kullanıcı bulunamadı' });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    user.reset_token = resetTokenHash;
+    user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000); // 1 saat geçerli
+    await user.save();
+
+    const frontendUrl = req.headers.origin || 'http://localhost:5173';
+    await sendResetEmail(user.email, resetToken, frontendUrl);
+
+    res.json({ success: true, message: 'Şifre sıfırlama talimatları e-posta adresinize gönderildi.' });
+  } catch (error) {
+    console.error('Şifremi Unuttum Hatası:', error);
+    res.status(500).json({ success: false, message: 'Sunucu hatası oluştu' });
+  }
+};
+
+// Şifre Sıfırlama (Reset Password)
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    const resetTokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      where: {
+        reset_token: resetTokenHash,
+        reset_token_expires: {
+          [Op.gt]: new Date()
+        }
+      }
+    });
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Geçersiz veya sürmesi dolmuş sıfırlama jetonu.' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password_hash = await bcrypt.hash(password, salt);
+    
+    user.reset_token = null;
+    user.reset_token_expires = null;
+    await user.save();
+
+    res.json({ success: true, message: 'Şifreniz başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.' });
+  } catch (error) {
+    console.error('Şifre Sıfırlama Hatası:', error);
+    res.status(500).json({ success: false, message: 'Sunucu hatası oluştu' });
   }
 };
