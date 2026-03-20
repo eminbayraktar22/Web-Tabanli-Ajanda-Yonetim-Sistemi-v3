@@ -12,7 +12,7 @@ exports.getCategories = async (req, res) => {
           [
             Sequelize.literal(`(
               SELECT COUNT(*)
-              FROM Events AS event
+              FROM ${Event.tableName} AS event
               WHERE
                 event.category_id = Category.id
             )`),
@@ -21,7 +21,7 @@ exports.getCategories = async (req, res) => {
           [
             Sequelize.literal(`(
               SELECT COUNT(*)
-              FROM Tasks AS task
+              FROM ${Task.tableName} AS task
               WHERE
                 task.category_id = Category.id
             )`),
