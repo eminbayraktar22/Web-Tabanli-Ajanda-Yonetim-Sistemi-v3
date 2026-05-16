@@ -20,7 +20,19 @@ module.exports = async function (req, res, next) {
       if (!membership) return res.status(403).json({ success: false, message: 'Bu çalışma alanına erişim yetkiniz yok.' });
       req.workspace_id = workspaceId;
     } else {
-      const firstMembership = await WorkspaceMember.findOne({ where: { user_id: req.user.id } });
+      let firstMembership = await WorkspaceMember.findOne({ where: { user_id: req.user.id } });
+      
+      // Eski kullanıcıların workspace'i yoksa otomatik oluştur (Geriye dönük uyumluluk)
+      if (!firstMembership) {
+        const { Workspace } = require('../models');
+        const defaultWorkspace = await Workspace.create({ name: 'Kişisel Çalışma Alanı' });
+        firstMembership = await WorkspaceMember.create({
+          workspace_id: defaultWorkspace.id,
+          user_id: req.user.id,
+          role: 'owner'
+        });
+      }
+      
       if (firstMembership) {
         req.workspace_id = firstMembership.workspace_id;
       }

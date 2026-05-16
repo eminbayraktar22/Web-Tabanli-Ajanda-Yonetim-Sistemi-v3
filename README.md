@@ -47,7 +47,6 @@ Proje tamamen sanallaştırılmış (containerized) yapıya sahiptir. Bağımlı
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
-*(Yapay Zeka özelliklerini kullanabilmek için backend klasöründeki `.env` dosyasında `GEMINI_API_KEY` veya ilgili anahtarları belirtmelisiniz).*
 
 3. Docker-Compose ile konteynerları ayağa kaldırın:
 ```bash
