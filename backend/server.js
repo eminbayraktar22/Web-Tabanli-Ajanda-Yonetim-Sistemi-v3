@@ -140,37 +140,27 @@ async function startServer() {
       }
     };
 
-    await addColumnSafely('Events', 'shared_emails', 'VARCHAR(255)');
-    await addColumnSafely('Events', 'is_notified', 'TINYINT(1) DEFAULT 0');
-    await addColumnSafely('Events', 'rrule', 'VARCHAR(255)');
-    await addColumnSafely('Events', 'attachment_url', 'VARCHAR(255)');
-    await addColumnSafely('Categories', 'icon', 'VARCHAR(50)');
-    await addColumnSafely('Tasks', 'category_id', 'CHAR(36)'); // UUID
-    await addColumnSafely('Tasks', 'due_date', 'DATETIME');
-    await addColumnSafely('Tasks', 'tags_json', 'TEXT');
-    await addColumnSafely('Tasks', 'subtasks_json', 'TEXT');
-    await addColumnSafely('Tasks', 'priority', 'VARCHAR(50)');
-    await addColumnSafely('Tasks', 'attachment_url', 'VARCHAR(255)');
-    await addColumnSafely('Tasks', 'time_spent', 'INT DEFAULT 0');
-    await addColumnSafely('Tasks', 'is_timer_running', 'TINYINT(1) DEFAULT 0');
-    await addColumnSafely('Tasks', 'timer_started_at', 'DATETIME');
-    await addColumnSafely('Tasks', 'workspace_id', 'CHAR(36)');
-    await addColumnSafely('Events', 'workspace_id', 'CHAR(36)');
-    await addColumnSafely('Categories', 'workspace_id', 'CHAR(36)');
-    await addColumnSafely('Notes', 'workspace_id', 'CHAR(36)');
-    await addColumnSafely('Tags', 'workspace_id', 'CHAR(36)');
-    await addColumnSafely('Users', 'avatar_url', 'VARCHAR(255)');
-    await addColumnSafely('Users', 'reset_token', 'VARCHAR(320)');
-    await addColumnSafely('Users', 'reset_token_expires', 'DATETIME');
-    await addColumnSafely('users', 'avatar_url', 'VARCHAR(255)');
-    await addColumnSafely('users', 'reset_token', 'VARCHAR(320)');
-    await addColumnSafely('users', 'reset_token_expires', 'DATETIME');
-    await addColumnSafely('Users', 'ai_provider', 'VARCHAR(255)');
-    await addColumnSafely('Users', 'ai_model', 'VARCHAR(255)');
-    await addColumnSafely('Users', 'ai_api_key', 'VARCHAR(512)');
-    await addColumnSafely('users', 'ai_provider', 'VARCHAR(255)');
-    await addColumnSafely('users', 'ai_model', 'VARCHAR(255)');
-    await addColumnSafely('users', 'ai_api_key', 'VARCHAR(512)');
+    // Linux MySQL'de büyük/küçük harf duyarlılığı yüzünden tablolar küçük harf olabilir. İkisini de deniyoruz:
+    const tablesToAlter = [
+      { name: 'Events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Tasks', cols: [ ['category_id', 'CHAR(36)'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'tasks', cols: [ ['category_id', 'CHAR(36)'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Notes', cols: [ ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'notes', cols: [ ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Tags', cols: [ ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'tags', cols: [ ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Users', cols: [ ['avatar_url', 'VARCHAR(255)'], ['reset_token', 'VARCHAR(320)'], ['reset_token_expires', 'DATETIME'], ['ai_provider', 'VARCHAR(255)'], ['ai_model', 'VARCHAR(255)'], ['ai_api_key', 'VARCHAR(512)'] ] },
+      { name: 'users', cols: [ ['avatar_url', 'VARCHAR(255)'], ['reset_token', 'VARCHAR(320)'], ['reset_token_expires', 'DATETIME'], ['ai_provider', 'VARCHAR(255)'], ['ai_model', 'VARCHAR(255)'], ['ai_api_key', 'VARCHAR(512)'] ] }
+    ];
+
+    for (const table of tablesToAlter) {
+      for (const col of table.cols) {
+        await addColumnSafely(table.name, col[0], col[1]);
+      }
+    }
 
     // Sadece eksik tabloları oluştur, var olanları güncelle (alter: true)
     // Veritabanı türüne göre FK kısıtlamalarını kapat
