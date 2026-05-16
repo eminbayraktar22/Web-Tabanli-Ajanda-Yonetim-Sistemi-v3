@@ -15,7 +15,8 @@ module.exports = async function (req, res, next) {
     req.user = decoded;
 
     let workspaceId = req.header('X-Workspace-Id');
-    if (workspaceId) {
+    // localStorage'dan "null" veya "undefined" stringi gelme ihtimaline karşı koruma
+    if (workspaceId && workspaceId !== 'null' && workspaceId !== 'undefined') {
       const membership = await WorkspaceMember.findOne({ where: { user_id: req.user.id, workspace_id: workspaceId } });
       if (!membership) return res.status(403).json({ success: false, message: 'Bu çalışma alanına erişim yetkiniz yok.' });
       req.workspace_id = workspaceId;
