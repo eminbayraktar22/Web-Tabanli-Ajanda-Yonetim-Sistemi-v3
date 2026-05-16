@@ -16,11 +16,17 @@ module.exports = async function (req, res, next) {
 
     let workspaceId = req.header('X-Workspace-Id');
     // localStorage'dan "null" veya "undefined" stringi gelme ihtimaline karşı koruma
+    let hasValidWorkspace = false;
+    
     if (workspaceId && workspaceId !== 'null' && workspaceId !== 'undefined') {
       const membership = await WorkspaceMember.findOne({ where: { user_id: req.user.id, workspace_id: workspaceId } });
-      if (!membership) return res.status(403).json({ success: false, message: 'Bu çalışma alanına erişim yetkiniz yok.' });
-      req.workspace_id = workspaceId;
-    } else {
+      if (membership) {
+        req.workspace_id = workspaceId;
+        hasValidWorkspace = true;
+      }
+    }
+    
+    if (!hasValidWorkspace) {
       let firstMembership = await WorkspaceMember.findOne({ where: { user_id: req.user.id } });
       
       // Eski kullanıcıların workspace'i yoksa otomatik oluştur (Geriye dönük uyumluluk)
