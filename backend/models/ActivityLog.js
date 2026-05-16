@@ -8,11 +8,11 @@ const ActivityLog = sequelize.define('ActivityLog', {
     primaryKey: true
   },
   workspace_id: {
-    type: DataTypes.CHAR(36),
+    type: DataTypes.UUID,
     allowNull: false
   },
   user_id: {
-    type: DataTypes.CHAR(36),
+    type: DataTypes.UUID,
     allowNull: false
   },
   action: {
