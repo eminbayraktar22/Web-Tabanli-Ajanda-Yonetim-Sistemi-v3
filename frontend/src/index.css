@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* Tailwind v4 class-based dark mode definition */
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* FullCalendar Dark Mode Fixes */
+.dark .fc {
+  --fc-page-bg-color: #0f172a;
+  --fc-neutral-bg-color: #1e293b;
+  --fc-neutral-text-color: #94a3b8;
+  --fc-border-color: #334155;
+  --fc-button-bg-color: #4f46e5;
+  --fc-button-border-color: #4f46e5;
+  --fc-button-hover-bg-color: #4338ca;
+  --fc-button-hover-border-color: #4338ca;
+  --fc-button-active-bg-color: #3730a3;
+  --fc-button-active-border-color: #3730a3;
+  --fc-today-bg-color: rgba(79, 70, 229, 0.15);
+}
+.dark .fc-theme-standard td, .dark .fc-theme-standard th {
+  border-color: #334155;
+}
+.dark .fc .fc-daygrid-day-number, .dark .fc .fc-col-header-cell-cushion {
+  color: #cbd5e1;
+}
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafc; /* slate-50 */
+  color: #0f172a; /* slate-900 */
+}
+
+/* ── FullCalendar — Buton & Toolbar Tasarımı ──────────────── */
+.fc .fc-toolbar {
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Butonları grup olarak yuvarlak yap */
+.fc .fc-button-group .fc-button,
+.fc .fc-button {
+  border-radius: 10px !important;
+  padding: 0.4rem 0.9rem !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  line-height: 1.4 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: background 0.15s, opacity 0.15s !important;
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+.fc .fc-button:hover:not(:disabled) {
+  background-color: #cbd5e1 !important;
+  color: #1e293b !important;
+  opacity: 1 !important;
+}
+
+/* Aktif / seçili görünüm butonu */
+.fc .fc-button.fc-button-active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+/* "Bugün" butonu — öne çıksın */
+.fc .fc-today-button {
+  background-color: #6366f1 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+}
+.fc .fc-today-button:hover:not(:disabled) {
+  background-color: #4f46e5 !important;
+}
+.fc .fc-today-button:disabled {
+  background-color: #c7d2fe !important;
+  color: #fff !important;
+  opacity: 0.7 !important;
+}
+
+/* İleri/Geri ok butonları — sadece ikon */
+.fc .fc-prev-button,
+.fc .fc-next-button {
+  border-radius: 10px !important;
+  padding: 0.4rem 0.6rem !important;
+}
+
+/* Buton grubunda iç aralar */
+.fc .fc-button-group .fc-button:not(:last-child) {
+  border-right: 1px solid rgba(0,0,0,0.07) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.fc .fc-button-group .fc-button:not(:first-child) {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Toolbar başlık */
+.fc .fc-toolbar-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* ── Etkinlik chip'leri ──────────────────────────────────── */
+.fc .fc-event {
+  border-radius: 6px !important;
+  padding: 2px 7px !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: opacity 0.15s, transform 0.1s !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+.fc .fc-event:hover {
+  opacity: 0.88 !important;
+  transform: translateY(-1px) !important;
+}
+.fc .fc-daygrid-event {
+  border-radius: 6px !important;
+}
+.fc .fc-timegrid-event .fc-event-main {
+  padding: 3px 6px !important;
+}
+.fc .fc-timegrid-event {
+  border-radius: 8px !important;
+  border: none !important;
+}
+
+/* ── Takvim Hücreleri ───────────────────────────────────── */
+.fc .fc-daygrid-day {
+  transition: background 0.15s;
+}
+.fc .fc-daygrid-day:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+/* Bugünün hücresi */
+.fc .fc-day-today {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+.fc .fc-day-today .fc-daygrid-day-number {
+  background: #6366f1 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 2px 7px !important;
+  font-weight: 700 !important;
+}
+
+/* Gün numaraları */
+.fc .fc-daygrid-day-number {
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+  padding: 4px 6px !important;
+}
+
+/* Başlık satırı (Pzt, Sal...) */
+.fc .fc-col-header-cell-cushion {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #94a3b8 !important;
+  padding: 8px 0 !important;
+}
+
+/* Hafta tipi görünümde saat etiketleri */
+.fc .fc-timegrid-slot-label {
+  font-size: 0.7rem !important;
+  color: #94a3b8 !important;
+}
+
+/* Çizgiler */
+.fc-theme-standard td, .fc-theme-standard th {
+  border-color: #f1f5f9 !important;
+}
+.fc-theme-standard .fc-scrollgrid {
+  border-color: #e2e8f0 !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+/* ── Dark Mode ──────────────────────────────────────────── */
+.dark .fc .fc-button {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+.dark .fc .fc-button:hover:not(:disabled) {
+  background-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+.dark .fc .fc-button.fc-button-active,
+.dark .fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #6366f1 !important;
+  color: #fff !important;
+}
+.dark .fc .fc-today-button {
+  background-color: #6366f1 !important;
+}
+.dark .fc .fc-button-group .fc-button:not(:last-child) {
+  border-right-color: rgba(255,255,255,0.06) !important;
+}
+.dark .fc .fc-toolbar-title { color: #e2e8f0 !important; }
+.dark .fc .fc-daygrid-day-number { color: #64748b !important; }
+.dark .fc .fc-day-today { background: rgba(99,102,241,0.12) !important; }
+.dark .fc .fc-day-today .fc-daygrid-day-number {
+  background: #6366f1 !important; color: #fff !important;
+}
+.dark .fc .fc-col-header-cell-cushion { color: #475569 !important; }
+.dark .fc .fc-timegrid-slot-label { color: #475569 !important; }
+.dark .fc-theme-standard td, .dark .fc-theme-standard th { border-color: #1e293b !important; }
+.dark .fc-theme-standard .fc-scrollgrid { border-color: #334155 !important; }
+.dark .fc .fc-daygrid-day:hover { background: rgba(99,102,241,0.07); }
+.dark .fc .fc-event {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35) !important;
+}
+
+
+/* ── Mobil Responsive Düzeltmeleri ───────────────────────── */
+
+/* Güvenli alan (notch) desteği */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Momentum scroll - mobilde yumuşak kaydırma */
+.overflow-y-auto, .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Kanban scroll yatay */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.dark .overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* FullCalendar mobil toolbar */
+@media (max-width: 640px) {
+  .fc-toolbar {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  .fc-toolbar-title {
+    font-size: 1rem !important;
+  }
+  .fc-button {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Minimum dokunma hedefi (48px) - erişilebilirlik */
+button, a[role="button"] {
+  min-height: 36px;
+}
+
+/* Responsive tablo overflow */
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 0.75rem !important;
+  }
+}
+
+/* Input zoom engeli — iOS */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Dark mode body */
+.dark body {
+  background-color: #020617;
+  color: #f1f5f9;
+}
+
