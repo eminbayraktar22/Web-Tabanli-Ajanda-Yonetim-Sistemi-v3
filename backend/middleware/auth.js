@@ -36,7 +36,7 @@ module.exports = async function (req, res, next) {
         firstMembership = await WorkspaceMember.create({
           workspace_id: defaultWorkspace.id,
           user_id: req.user.id,
-          role: 'owner'
+          role: 'admin'
         });
       }
       
@@ -47,6 +47,7 @@ module.exports = async function (req, res, next) {
 
     next();
   } catch (err) {
-    res.status(401).json({ success: false, message: 'Token geçersiz veya süresi dolmuş' });
+    console.error('[Auth Middleware] Hata:', err);
+    res.status(401).json({ success: false, message: 'Token geçersiz veya yetkilendirme hatası' });
   }
 };
