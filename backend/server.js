@@ -142,16 +142,16 @@ async function startServer() {
 
     // Linux MySQL'de büyük/küçük harf duyarlılığı yüzünden tablolar küçük harf olabilir. İkisini de deniyoruz:
     const tablesToAlter = [
-      { name: 'Events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'Categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'Tasks', cols: [ ['category_id', 'CHAR(36)'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'tasks', cols: [ ['category_id', 'CHAR(36)'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'Notes', cols: [ ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'notes', cols: [ ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'Tags', cols: [ ['workspace_id', 'CHAR(36)'] ] },
-      { name: 'tags', cols: [ ['workspace_id', 'CHAR(36)'] ] },
+      { name: 'Events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'events', cols: [ ['shared_emails', 'VARCHAR(255)'], ['is_notified', 'TINYINT(1) DEFAULT 0'], ['rrule', 'VARCHAR(255)'], ['attachment_url', 'VARCHAR(255)'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'Categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'categories', cols: [ ['icon', 'VARCHAR(50)'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'Tasks', cols: [ ['category_id', 'CHAR(36) BINARY'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'tasks', cols: [ ['category_id', 'CHAR(36) BINARY'], ['due_date', 'DATETIME'], ['tags_json', 'TEXT'], ['subtasks_json', 'TEXT'], ['priority', 'VARCHAR(50)'], ['attachment_url', 'VARCHAR(255)'], ['time_spent', 'INT DEFAULT 0'], ['is_timer_running', 'TINYINT(1) DEFAULT 0'], ['timer_started_at', 'DATETIME'], ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'Notes', cols: [ ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'notes', cols: [ ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'Tags', cols: [ ['workspace_id', 'CHAR(36) BINARY'] ] },
+      { name: 'tags', cols: [ ['workspace_id', 'CHAR(36) BINARY'] ] },
       { name: 'Users', cols: [ ['avatar_url', 'VARCHAR(255)'], ['reset_token', 'VARCHAR(320)'], ['reset_token_expires', 'DATETIME'], ['ai_provider', 'VARCHAR(255)'], ['ai_model', 'VARCHAR(255)'], ['ai_api_key', 'VARCHAR(512)'] ] },
       { name: 'users', cols: [ ['avatar_url', 'VARCHAR(255)'], ['reset_token', 'VARCHAR(320)'], ['reset_token_expires', 'DATETIME'], ['ai_provider', 'VARCHAR(255)'], ['ai_model', 'VARCHAR(255)'], ['ai_api_key', 'VARCHAR(512)'] ] }
     ];
