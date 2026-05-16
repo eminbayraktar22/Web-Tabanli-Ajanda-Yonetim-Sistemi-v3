@@ -4,6 +4,11 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  css: {
+    lightningcss: {
+      errorRecovery: true
+    }
+  },
   plugins: [
     react(), 
     tailwindcss(),
